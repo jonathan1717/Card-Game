@@ -57,7 +57,7 @@ public class GameRunner
 						addCard(playerTwoDeck, shuffledDeck, 0);
 					}
 				System.out.println(cards);
-				System.out.println(playerOneDeck);
+//				System.out.println(playerOneDeck);
 				System.out.println(playerTwoDeck);
 //				for (Card s : shuffledDeck)
 //					{
@@ -70,12 +70,12 @@ public class GameRunner
 						if (turn == true)
 							{
 								int random = (int) (Math.random() * playerOneDeck.size());
-								System.out.println("Do you have a " + playerOneDeck.get(random).getName());
+								System.out.println("Do you have a " + playerOneDeck.get(random).getName() + "?");
 								for (int i = 0; i < playerTwoDeck.size(); i++)
 									{
 										if (playerTwoDeck.get(i).getValue() == playerOneDeck.get(random).getValue())
 											{
-												System.out.println("I have a " + playerOneDeck.get(random) + "?");
+												System.out.println("I have a " + playerTwoDeck.get(i));
 												addCard(playerOnePairs, playerTwoDeck, i);
 												addCard(playerOnePairs, playerOneDeck, random);
 												turn = false;
@@ -84,16 +84,34 @@ public class GameRunner
 									}
 								if (turn == true)
 									{
-										System.out.println("Go fish");
+										System.out.println("Go fish!");
 										turn = false;
 										addCard(playerOneDeck, shuffledDeck, 0);
 									}
-								System.out.println(playerOneDeck);
+//								System.out.println(playerOneDeck);
 								System.out.println(playerTwoDeck);
 							}
 						if (turn == false)
 							{
-								
+								System.out.println("Which of your cards do you want to ask for?");
+								int user = input.nextInt();
+								for (int i = 0; i < playerOneDeck.size(); i++)
+									{
+										if (playerOneDeck.get(i).getValue() == playerTwoDeck.get(user - 1).getValue())
+											{
+												System.out.println("I have a " + playerOneDeck.get(i));
+												addCard(playerTwoPairs, playerOneDeck, i);
+												addCard(playerTwoPairs, playerTwoDeck, (user - 1));
+												turn = true;
+												break;
+											}
+									}
+								if (turn == false)
+									{
+										System.out.println("Go fish!");
+										turn = true;
+										addCard(playerTwoDeck, shuffledDeck, 0);
+									}
 							}
 					}
 			}
@@ -101,6 +119,5 @@ public class GameRunner
 		{
 			card.add(deck.get(num));
 			deck.remove(num);
-			
 		}
 	}
