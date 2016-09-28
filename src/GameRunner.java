@@ -47,6 +47,7 @@ public class GameRunner
 						cards.remove(number);
 						k++;
 					}
+				//Collections.shuffle(deck);
 				ArrayList <Card> playerOneDeck = new ArrayList<Card>();
 				ArrayList <Card> playerTwoDeck = new ArrayList<Card>();
 				ArrayList <Card> playerOnePairs = new ArrayList<Card>();
@@ -58,7 +59,7 @@ public class GameRunner
 					}
 				System.out.println(cards);
 //				System.out.println(playerOneDeck);
-				System.out.println(playerTwoDeck);
+				System.out.println("The cards in your deck are: " + playerTwoDeck);
 //				for (Card s : shuffledDeck)
 //					{
 //						System.out.println(s);
@@ -67,6 +68,18 @@ public class GameRunner
 				boolean turn = true;
 				while(playerOneDeck.size() > 0 || playerTwoDeck.size() > 0)
 					{
+						checkDeck(playerOneDeck, playerOnePairs);
+						checkDeck(playerTwoDeck, playerTwoPairs);
+						System.out.println("These are your pairs: " + playerTwoPairs);
+						System.out.println("These are your opponets pairs: " + playerOnePairs);
+						try
+							{
+								Thread.sleep(2500);
+							} catch (InterruptedException e)
+							{
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 						if (turn == true)
 							{
 								int random = (int) (Math.random() * playerOneDeck.size());
@@ -89,7 +102,19 @@ public class GameRunner
 										addCard(playerOneDeck, shuffledDeck, 0);
 									}
 //								System.out.println(playerOneDeck);
-								System.out.println(playerTwoDeck);
+								System.out.println("The cards in your deck are: " + playerTwoDeck);
+								System.out.println("These are your pairs: " + playerTwoPairs);
+								System.out.println("These are your opponets pairs: " + playerOnePairs);
+							}
+						checkDeck(playerOneDeck, playerOnePairs);
+						checkDeck(playerTwoDeck, playerTwoPairs);
+						try
+							{
+								Thread.sleep(2500);
+							} catch (InterruptedException e)
+							{
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
 						if (turn == false)
 							{
@@ -109,15 +134,45 @@ public class GameRunner
 								if (turn == false)
 									{
 										System.out.println("Go fish!");
+										System.out.println("You got a " + shuffledDeck.get(0));
 										turn = true;
 										addCard(playerTwoDeck, shuffledDeck, 0);
 									}
 							}
+					}
+				if (playerTwoDeck.size() == 0)
+					{
+						System.out.println("You Win!");
+					}
+				else if (playerOneDeck.size() == 0)
+					{
+						System.out.println("You Lose! :(");
 					}
 			}
 		public static void addCard(ArrayList<Card> card, ArrayList<Card> deck, int num)
 		{
 			card.add(deck.get(num));
 			deck.remove(num);
+		}
+		public static void checkDeck(ArrayList<Card> deck, ArrayList<Card> deck2)
+		{
+			for (int i = 0; i < deck.size(); i++)
+				{
+					for (int j = 0; j < deck.size(); j++)
+						{
+							if (i == j && j !=deck.size())
+								{
+									j++;
+								}
+							else
+								{
+									if (deck.get(i).getValue() == deck.get(j).getValue())
+										{
+											addCard(deck2, deck, i);
+											addCard(deck2, deck, j);
+										}
+								}
+						}
+				}
 		}
 	}
