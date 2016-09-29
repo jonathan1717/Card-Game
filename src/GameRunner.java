@@ -160,16 +160,20 @@ public class GameRunner
 				{
 					for (int j = 0; j < deck.size(); j++)
 						{
-							if (i == j && j !=deck.size())
-								{
-									j++;
-								}
-							else
+							if (i != j)
 								{
 									if (deck.get(i).getValue() == deck.get(j).getValue())
 										{
-											addCard(deck2, deck, i);
-											addCard(deck2, deck, j);
+											if (i < j)
+												{
+													addCard(deck2, deck, i);
+													addCard(deck2, deck, (j-1));	
+												}
+											if (i > j)
+												{
+													addCard(deck2, deck, j);
+													addCard(deck2, deck, i);
+												}
 										}
 								}
 						}
