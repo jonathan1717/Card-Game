@@ -57,9 +57,9 @@ public class GameRunner
 						addCard(playerOneDeck, shuffledDeck, 0);
 						addCard(playerTwoDeck, shuffledDeck, 0);
 					}
-				System.out.println(cards);
+//				System.out.println(cards);
 //				System.out.println(playerOneDeck);
-				System.out.println("The cards in your deck are: " + playerTwoDeck);
+				print("The cards in your deck are: " + playerTwoDeck);
 //				for (Card s : shuffledDeck)
 //					{
 //						System.out.println(s);
@@ -70,25 +70,25 @@ public class GameRunner
 					{
 						checkDeck(playerOneDeck, playerOnePairs);
 						checkDeck(playerTwoDeck, playerTwoPairs);
-						System.out.println("These are your pairs: " + playerTwoPairs);
-						System.out.println("These are your opponets pairs: " + playerOnePairs);
-						try
-							{
-								Thread.sleep(2500);
-							} catch (InterruptedException e)
-							{
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+						print("Your pairs: " + playerTwoPairs);
+						print("Your opponets pairs: " + playerOnePairs.toString().replace("[", "").replace("[", ""));
 						if (turn == true)
 							{
 								int random = (int) (Math.random() * playerOneDeck.size());
-								System.out.println("Do you have a " + playerOneDeck.get(random).getName() + "?");
+								print("Do you have a " + playerOneDeck.get(random).getName() + "?");
+								try
+									{
+										Thread.sleep(1000);
+									} catch (InterruptedException e)
+									{
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 								for (int i = 0; i < playerTwoDeck.size(); i++)
 									{
 										if (playerTwoDeck.get(i).getValue() == playerOneDeck.get(random).getValue())
 											{
-												System.out.println("I have a " + playerTwoDeck.get(i));
+												print("I have a " + playerTwoDeck.get(i));
 												addCard(playerOnePairs, playerTwoDeck, i);
 												addCard(playerOnePairs, playerOneDeck, random);
 												turn = false;
@@ -97,34 +97,47 @@ public class GameRunner
 									}
 								if (turn == true)
 									{
-										System.out.println("Go fish!");
+										print("Go fish!");
 										turn = false;
 										addCard(playerOneDeck, shuffledDeck, 0);
 									}
 //								System.out.println(playerOneDeck);
-								System.out.println("The cards in your deck are: " + playerTwoDeck);
-								System.out.println("These are your pairs: " + playerTwoPairs);
-								System.out.println("These are your opponets pairs: " + playerOnePairs);
+								print("The cards in your deck are: " + playerTwoDeck);
+								print("Your pairs: " + playerTwoPairs);
+								print("Your opponets pairs: " + playerOnePairs);
 							}
 						checkDeck(playerOneDeck, playerOnePairs);
 						checkDeck(playerTwoDeck, playerTwoPairs);
-						try
-							{
-								Thread.sleep(2500);
-							} catch (InterruptedException e)
-							{
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+//						try
+//							{
+//								Thread.sleep(1500);
+//							} catch (InterruptedException e)
+//							{
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
 						if (turn == false)
 							{
-								System.out.println("Which of your cards do you want to ask for?");
+								int inRange = 0;
+								print("Which of your cards do you want to ask for?");
 								int user = input.nextInt();
+								while (inRange == 0)
+									{
+										if (user <= playerTwoDeck.size())
+											{
+												inRange = 1;
+											}
+										else
+											{
+												print("That is too large of a value. Please type in which card you want to ask for");
+												user = input.nextInt();
+											}	
+									}
 								for (int i = 0; i < playerOneDeck.size(); i++)
 									{
 										if (playerOneDeck.get(i).getValue() == playerTwoDeck.get(user - 1).getValue())
 											{
-												System.out.println("I have a " + playerOneDeck.get(i));
+												print("I have a " + playerOneDeck.get(i));
 												addCard(playerTwoPairs, playerOneDeck, i);
 												addCard(playerTwoPairs, playerTwoDeck, (user - 1));
 												turn = true;
@@ -133,12 +146,14 @@ public class GameRunner
 									}
 								if (turn == false)
 									{
-										System.out.println("Go fish!");
-										System.out.println("You got a " + shuffledDeck.get(0));
+										print("Go fish!");
+										print("You got a " + shuffledDeck.get(0));
 										turn = true;
 										addCard(playerTwoDeck, shuffledDeck, 0);
 									}
 							}
+						checkDeck(playerOneDeck, playerOnePairs);
+						checkDeck(playerTwoDeck, playerTwoPairs);
 					}
 				if (playerTwoDeck.size() == 0)
 					{
@@ -178,5 +193,21 @@ public class GameRunner
 								}
 						}
 				}
+		}
+		public static void print(String s)
+		{
+			for(int i = 0; i < s.length(); i++)
+				{
+					System.out.print(s.substring(i, i+1));
+					try
+						{
+							Thread.sleep(50);
+						} catch (InterruptedException e)
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				}
+			System.out.println();
 		}
 	}
